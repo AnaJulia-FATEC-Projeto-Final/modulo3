@@ -58,7 +58,7 @@ services:
 #    ports:
 #      - "8083:8083"
 #    environment:
-#      KAFKA_BROKER: kafka:9092
+#      KAFKA_BROKERS: kafka:9092
 #    depends_on:
 #      - mongodb
 #      - zookeeper

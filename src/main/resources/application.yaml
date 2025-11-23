@@ -12,7 +12,7 @@ spring:
     admin:
       auto-create-topics: true
     topic:
-      pessoa.update: pessoa.update
+      pessoa.atualizada: pessoa.atualizada
     listener:
       concurrency: 10
     producer:
@@ -22,11 +22,11 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     cloud:
       function:
-        definition: pessoaLambdaConsumer
+        definition: lambdaConsumer
       stream:
         bindings:
-          pessoaConsumer-in-0:
-            destination: pessoa.update
+          lambdaConsumer-in-0:
+            destination: pessoa.atualizada
             content-type: application/json
             group: pessoa-group
         kafka:

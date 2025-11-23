@@ -5,33 +5,24 @@ spring:
   application:
     name: modulo3
 
-  kafka:
-    bootstrap-servers: ${KAFKA_BROKERS:localhost:9093}
-    replicas: 1
-    partitions: 10
-    admin:
-      auto-create-topics: true
-    topic:
-      pessoa.atualizada: pessoa.atualizada
-    listener:
-      concurrency: 10
-    producer:
-      max-block-ms: 5000
-      bootstrap-servers: ${KAFKA_BROKERS:localhost:9093}
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    cloud:
-      function:
-        definition: lambdaConsumer
-      stream:
+  cloud:
+    function:
+      definition: lambdaConsumer
+
+    stream:
+      bindings:
+        lambdaConsumer-in-0:
+          destination: pessoa.atualizada
+          group: pessoa-group
+          content-type: application/json
+
+      kafka:
+        binder:
+          brokers: ${KAFKA_BROKERS:localhost:9093}
+          auto-create-topics: true
+
         bindings:
           lambdaConsumer-in-0:
-            destination: pessoa.atualizada
-            content-type: application/json
-            group: pessoa-group
-        kafka:
-          binder:
-            brokers: localhost:9093
-            auto-create-topics: true
-            consumer-properties:
-              auto.offset.reset: earliest
+            consumer:
+              auto-offset-reset: earliest
+              enableDlq: true

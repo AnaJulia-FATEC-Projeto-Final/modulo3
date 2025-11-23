@@ -1,3 +1,37 @@
+server:
+  port: 8083
+
 spring:
   application:
     name: modulo3
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:9093}
+    replicas: 1
+    partitions: 10
+    admin:
+      auto-create-topics: true
+    topic:
+      pessoa.update: pessoa.update
+    listener:
+      concurrency: 10
+    producer:
+      max-block-ms: 5000
+      bootstrap-servers: ${KAFKA_BROKERS:localhost:9093}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    cloud:
+      function:
+        definition: pessoaLambdaConsumer
+      stream:
+        bindings:
+          pessoaConsumer-in-0:
+            destination: pessoa.update
+            content-type: application/json
+            group: pessoa-group
+        kafka:
+          binder:
+            brokers: localhost:9093
+            auto-create-topics: true
+            consumer-properties:
+              auto.offset.reset: earliest

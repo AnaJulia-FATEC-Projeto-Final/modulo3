@@ -1,6 +1,6 @@
-package com.anajulia.modulo3.function;
+package com.anajulia.modulo3.funcao;
 
-import com.anajulia.modulo3.function.dto.PessoaAtualizadaMensagem;
+import com.anajulia.modulo3.funcao.dto.PessoaAtualizadaMensagem;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import java.util.function.Consumer;
